@@ -10,8 +10,3 @@ RUN apt-get update \
 RUN pip3 install -r requirements.txt
 
 COPY . .
-
-# RUN python manage.py makemigrations \
-#     && python manage.py migrate
-
-# CMD ["python", "manage.py", "runserver"]
