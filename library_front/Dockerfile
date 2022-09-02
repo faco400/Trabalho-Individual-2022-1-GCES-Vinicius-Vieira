@@ -1,6 +1,6 @@
-FROM node:18-alpine
+FROM node:18-slim
 
-WORKDIR /app
+WORKDIR /library_front
 
 ENV PATH="./node_modules/.bin:$PATH"
 
@@ -10,4 +10,4 @@ RUN npm install
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# CMD ["npm", "start"]

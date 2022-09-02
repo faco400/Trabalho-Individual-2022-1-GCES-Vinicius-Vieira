@@ -46,8 +46,9 @@ services:
   front:
     build:
       context: library_front
+    command: npm start
     volumes:
-      - ./library_front:/app
+      - ./library_front/
     ports:
       - "3000:3000"
     depends_on:
