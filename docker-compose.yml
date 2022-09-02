@@ -42,6 +42,19 @@ services:
     networks:
       back_net:
         ipv4_address: 192.168.0.3
+  
+  front:
+    build:
+      context: library_front
+    volumes:
+      - ./library_front:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web
+    container_name: front_container
+    
+
 
 networks:
   back_net:
