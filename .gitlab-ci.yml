@@ -38,9 +38,10 @@ build-job:       # This job runs in the build stage, which runs first.
     DOCKER_TLS_CERTDIR: "/certs"
   script:
     - docker-compose down
-    - docker-compose build -t $IMAGE_NAME:$IMAGE_TAG
+    - docker-compose build
+    - docker-compose push
     # - docker-compose up
-    - docker-compose push $IMAGE_NAME:$IMAGE_TAG
+    # - docker-compose push $IMAGE_NAME:$IMAGE_TAG
     # - echo "Compiling the code..."
     # - echo "Compile complete."
 
