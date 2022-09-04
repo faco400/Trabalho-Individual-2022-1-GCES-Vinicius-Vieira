@@ -18,6 +18,9 @@ services:
       retries: 10
     restart: always
     container_name: db_container
+    networks:
+      back_net:
+        ipv4_address: 192.168.0.2
 
   web:
     build:
@@ -36,6 +39,9 @@ services:
     depends_on:
       - db
     container_name: web_container
+    networks:
+      back_net:
+        ipv4_address: 192.168.0.3
   
   front:
     build:
@@ -48,6 +54,9 @@ services:
     depends_on:
       - web
     container_name: front_container
+    networks:
+      back_net:
+        ipv4_address: 192.168.0.4
   
   nginx:
     image: nginx:latest
@@ -59,9 +68,20 @@ services:
     depends_on:
     - web
     - front
+    networks:
+      back_net:
+        ipv4_address: 192.168.0.5
 volumes:
   front_build:
 
+
+networks:
+  back_net:
+    ipam:
+      driver: default
+      config:
+      - subnet: "192.168.0.0/24"
+        gateway: 192.168.0.1
     
 
 
