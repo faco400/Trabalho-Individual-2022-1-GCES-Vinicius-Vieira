@@ -49,7 +49,8 @@ unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   image: python:3.9.5-slim-buster
   services:
-    -  tmaier/docker-compose:latest
+    - tmaier/docker-compose:latest
+    - docker:20.10.16-dind
   before_script:
     - docker-compose up --build
   script:
