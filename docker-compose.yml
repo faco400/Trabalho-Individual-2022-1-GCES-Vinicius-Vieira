@@ -25,8 +25,9 @@ services:
   web:
     build:
       context: ./library_back
-    command: bash  -c "
-        python manage.py makemigrations
+    command: bash  -c "chmod +x ./setup_env.sh 
+        && ./setup_env.sh
+        && python manage.py makemigrations
         && python manage.py migrate
         && python manage.py runserver 0.0.0.0:8000
       "
