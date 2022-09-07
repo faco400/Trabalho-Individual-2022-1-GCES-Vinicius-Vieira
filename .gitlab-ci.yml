@@ -48,9 +48,9 @@ build-job:       # This job runs in the build stage, which runs first.
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   image: python:3.9.5-slim-buster
-    - tmaier/docker-compose:latest
+  services:
+    -  tmaier/docker-compose:latest
   before_script:
-    - pip3 ./library_back/requirements.txt
     - docker-compose up --build
   script:
     - python3 ./library_back/manage.py test
