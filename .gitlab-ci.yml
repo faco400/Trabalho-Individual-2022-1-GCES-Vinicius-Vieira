@@ -44,7 +44,6 @@ build-job:       # This job runs in the build stage, which runs first.
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   image: python:3.9.5-slim-buster
-    entrypoint: ["/usr/bin/env"]
   before_script:
     - apt-get update
     - apt-get -y install libpq-dev gcc
