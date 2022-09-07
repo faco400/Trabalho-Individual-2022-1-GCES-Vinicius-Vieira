@@ -52,9 +52,14 @@ unit-test-job:   # This job runs in the test stage.
     - tmaier/docker-compose:latest
     - docker:20.10.16-dind
   before_script:
+    - docker info
+    - docker-compose --version
+    - docker login -u ${REGISTRY_USER//0}00 -p $REGISTRY_PASS
     - docker-compose down
     - docker-compose build
     - docker-compose up
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
   script:
     - python3 ./library_back/manage.py test
     # - echo "Running unit tests... This will take about 60 seconds."
