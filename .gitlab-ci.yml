@@ -46,6 +46,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker-compose build
     - docker-compose push
 
+
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   image: python:3.9.5-slim-buster
@@ -57,6 +58,11 @@ unit-test-job:   # This job runs in the test stage.
     - pip3 install -r ./library_back/requirements.txt
   script:
     - cd ./library_back/
+    - echo $POSTGRES_DB >> .env
+    - echo $POSTGRES_USER >> .env
+    - echo $POSTGRES_PASSWORD >> .env
+    - echo $POSTGRES_HOST >> .env
+    - echo $POSTGRES_PORT >> .env
     - python3 manage.py test
 
 # lint-test-job:   # This job also runs in the test stage.
