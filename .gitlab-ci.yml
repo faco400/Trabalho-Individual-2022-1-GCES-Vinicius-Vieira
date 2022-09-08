@@ -49,16 +49,16 @@ build-job:       # This job runs in the build stage, which runs first.
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
-  image: python:3.9.5-slim-buster
+  image: postgres:14-alpine
   services:
-    - postgres:14-alpine
+    - python:3.9.5-slim-buster
   before_script:
     - apt-get update
     - apt-get -y install libpq-dev gcc
     - pip3 install -r ./library_back/requirements.txt
   script:
     - cd ./library_back/
-    - echo  "GRANT ALL on *.* to '${POSTGRES_USER}';" | psql -h "db" -U "$POSTGRES_USER" -d "$POSTGRES_DB"
+    - echo  "GRANT ALL PRIVILEGES ON '${POSTGRES_DB}' to '${POSTGRES_USER}';" | psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$POSTGRES_DB"
     - python3 manage.py makemigrations
     - python3 manage.py migrate
     # - python3 manage.py runserver 0.0.0.0:8000
