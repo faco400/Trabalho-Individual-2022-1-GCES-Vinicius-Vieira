@@ -58,7 +58,8 @@ unit-test-job:   # This job runs in the test stage.
     - pip3 install -r ./library_back/requirements.txt
   script:
     - cd ./library_back/
-    - psql -h "db" -U "$POSTGRES_USER" -d "$POSTGRES_DB"
+    - sudo service postgresql start
+    - sudo psql -h "db" -U "$POSTGRES_USER" -d "$POSTGRES_DB"
     - python3 manage.py makemigrations
     - python3 manage.py migrate
     # - python3 manage.py runserver 0.0.0.0:8000
