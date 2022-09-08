@@ -50,8 +50,8 @@ build-job:       # This job runs in the build stage, which runs first.
 postgres-job:
   stage: postgres
   image: postgres:14-alpine
-  environment:
-    - POSTGRES_HOST_AUTH_METHOD: trust
+  variables:
+    POSTGRES_HOST_AUTH_METHOD: trust
   script:
     - echo  "GRANT ALL PRIVILEGES ON '${POSTGRES_DB}' to '${POSTGRES_USER}';" | psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${POSTGRES_DB}
 
