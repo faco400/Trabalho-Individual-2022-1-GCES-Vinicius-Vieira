@@ -27,7 +27,6 @@ variables:
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  - postgres
   - test
   # - deploy
 
@@ -46,32 +45,44 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker-compose down
     - docker-compose build
     - docker-compose push
+  
+  test-job:
+    stage: test
+    image: docker:latest
 
-postgres-job:
-  stage: postgres
-  image: postgres:14-alpine
-  variables:
-    POSTGRES_HOST_AUTH_METHOD: trust
-  script:
-    - echo  "GRANT ALL PRIVILEGES ON '${POSTGRES_DB}' to '${POSTGRES_USER}';" | psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+    services:
+    - docker:dind
+
+    before_script:
+    - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
+    - docker version
+    - docker-compose version
+
+    script:
+    - docker-compose up db
+    - docker-comose up web
+    - docker-compose exec -it web_container /bin/bash
+    - python manage.py test
 
 
-
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  image: python:3.9.5-slim-buster
-  needs:
-    - ["postgres-job"]
-  before_script:
-    - apt-get update
-    - apt-get -y install libpq-dev gcc
-    - pip3 install -r ./library_back/requirements.txt
-  script:
-    - cd ./library_back/
-    - python3 manage.py makemigrations
-    - python3 manage.py migrate
-    # - python3 manage.py runserver 0.0.0.0:8000
-    - python3 manage.py test
+# unit-test-job:   # This job runs in the test stage.
+#   stage: test    # It only starts when the job in the build stage completes successfully.
+#   image: python:3.9.5-slim-buster
+#   services:
+#     - tmaier/docker-compose:latest
+#     - docker:20.10.16-dind
+#   before_script:
+#     - apt-get update
+#     - apt-get -y install libpq-dev gcc
+#     - pip3 install -r ./library_back/requirements.txt
+#   script:
+#     - docker-compose up db
+#     - docker-compose up web
+#     - cd ./library_back/
+#     - python3 manage.py makemigrations
+#     - python3 manage.py migrate
+#     # - python3 manage.py runserver 0.0.0.0:8000
+#     - python3 manage.py test
 
 # lint-test-job:   # This job also runs in the test stage.
 #   stage: test    # It can run at the same time as unit-test-job (in parallel).
