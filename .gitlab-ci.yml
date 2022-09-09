@@ -96,7 +96,7 @@ lint-job:   # This job also runs in the test stage.
     - pip install -r ./library_back/requirements.txt
   script:
     - pylint library_back/
-    - npx eslint library_front/
+    # - npx eslint library_front/
 
 # deploy-job:      # This job runs in the deploy stage.
 #   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
