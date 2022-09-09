@@ -96,7 +96,7 @@ lint-job:   # This job also runs in the test stage.
     - apt-get -y install libpq-dev gcc
     - pip install -r ./library_back/requirements.txt
   script:
-    - autopep8 --in-place -r library_back --diff
+    - autopep8 --in-place -r library_back/
     - pylint library_back/
     # - npx eslint library_front/
 
