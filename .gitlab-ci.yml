@@ -61,8 +61,8 @@ test-job:
   script:
   - docker-compose up -d db
   - docker-compose up -d web
-  - docker-compose exec -it web_container /bin/bash
-  - python manage.py test
+  - docker exec -it web_container /bin/bash
+  - python3 manage.py test
 
 
 # unit-test-job:   # This job runs in the test stage.
