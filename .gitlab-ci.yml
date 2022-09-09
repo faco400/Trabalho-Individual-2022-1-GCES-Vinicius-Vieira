@@ -88,7 +88,7 @@ test-job:
 lint-job:   # This job also runs in the test stage.
   stage: lint    # It can run at the same time as unit-test-job (in parallel).
   image: python:3.9.5-slim-buster
-  service:
+  services:
     - node:18-slim
   before_script:
     - pip install pylint
