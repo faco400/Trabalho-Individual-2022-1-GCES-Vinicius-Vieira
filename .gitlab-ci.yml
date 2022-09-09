@@ -62,28 +62,9 @@ test-job:
   script:
   - docker-compose up -d db
   - docker-compose up -d web
+  - docker exec web_container python3 manage.py makemigrations
+  - docker exec web_container python3 manage.py migrate
   - docker exec web_container python3 manage.py test
-  - python3 manage.py test
-
-
-# unit-test-job:   # This job runs in the test stage.
-#   stage: test    # It only starts when the job in the build stage completes successfully.
-#   image: python:3.9.5-slim-buster
-#   services:
-#     - tmaier/docker-compose:latest
-#     - docker:20.10.16-dind
-#   before_script:
-#     - apt-get update
-#     - apt-get -y install libpq-dev gcc
-#     - pip3 install -r ./library_back/requirements.txt
-#   script:
-#     - docker-compose up db
-#     - docker-compose up web
-#     - cd ./library_back/
-#     - python3 manage.py makemigrations
-#     - python3 manage.py migrate
-#     # - python3 manage.py runserver 0.0.0.0:8000
-#     - python3 manage.py test
 
 lint-job:   # This job also runs in the test stage.
   stage: lint    # It can run at the same time as unit-test-job (in parallel).
@@ -98,7 +79,6 @@ lint-job:   # This job also runs in the test stage.
   script:
     - autopep8 --in-place -r library_back/
     - pylint library_back/ --disable=C0103,C0114,C0115,C0116,C0411,C0412,C0415,W0611,W0613,E1101,R0903,R0901
-    # - npx eslint library_front/
 
 # deploy-job:      # This job runs in the deploy stage.
 #   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
