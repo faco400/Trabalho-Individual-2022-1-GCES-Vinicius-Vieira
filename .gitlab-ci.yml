@@ -90,13 +90,15 @@ lint-job:   # This job also runs in the test stage.
   image: nikolaik/python-nodejs:python3.9-nodejs18-slim
   before_script:
     - pip install pylint
+    - pip install --upgrade autopep8
     - npm install eslint
     - apt-get update
     - apt-get -y install libpq-dev gcc
     - pip install -r ./library_back/requirements.txt
   script:
-    - npx eslint library_front/
-    # - pylint library_back/
+    - autopep8 --in-place -r library_back --diff
+    - pylint library_back/
+    # - npx eslint library_front/
 
 # deploy-job:      # This job runs in the deploy stage.
 #   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
