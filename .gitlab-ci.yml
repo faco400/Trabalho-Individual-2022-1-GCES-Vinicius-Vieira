@@ -60,7 +60,7 @@ test-job:
 
   script:
   - docker-compose up db
-  - docker-comose up web
+  - docker-compose up web
   - docker-compose exec -it web_container /bin/bash
   - python manage.py test
 
