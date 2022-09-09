@@ -91,6 +91,7 @@ lint-job:   # This job also runs in the test stage.
   before_script:
     - pip install pylint
     - npm install eslint
+    - pip3 install -r ./library_back/requirements.txt
   script:
     - pylint library_back/
     - npx eslint library_front/
