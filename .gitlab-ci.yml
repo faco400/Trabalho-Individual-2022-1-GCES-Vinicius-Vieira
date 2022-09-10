@@ -60,8 +60,7 @@ test-job:
   - docker-compose version
 
   script:
-  - docker-compose down db
-  - docker-compose down web
+  - docker-compose down
   - docker-compose up -d db
   - docker-compose up -d web
   - docker exec web_container python3 manage.py makemigrations
