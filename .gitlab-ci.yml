@@ -79,6 +79,8 @@ lint-job:   # This job also runs in the test stage.
   script:
     - autopep8 --in-place -r library_back/
     - pylint library_back/ --disable=C0103,C0114,C0115,C0116,C0411,C0412,C0415,W0611,W0613,E1101,R0903,R0901
+    - npx eslint --fix library_front/ --quiet
+
 
 # deploy-job:      # This job runs in the deploy stage.
 #   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
