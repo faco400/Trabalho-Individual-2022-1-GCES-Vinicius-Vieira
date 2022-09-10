@@ -74,6 +74,7 @@ lint-job:   # This job also runs in the test stage.
     - pip install pylint
     - pip install --upgrade autopep8
     - npm install library_front/
+    - npm install --save-dev eslint-config-react-app eslint@^8.0.0
     - apt-get update
     - apt-get -y install libpq-dev gcc
     - pip install -r ./library_back/requirements.txt
@@ -81,7 +82,7 @@ lint-job:   # This job also runs in the test stage.
     - autopep8 --in-place -r library_back/
     - pylint library_back/ --disable=C0103,C0114,C0115,C0116,C0411,C0412,C0415,W0611,W0613,E1101,R0903,R0901
     - cd ./library_front/
-    - eslint --fix
+    - npx eslint --fix --quiet
 
 
 # deploy-job:      # This job runs in the deploy stage.
