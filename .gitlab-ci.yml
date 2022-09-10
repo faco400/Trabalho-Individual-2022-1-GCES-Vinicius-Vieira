@@ -97,7 +97,7 @@ deploy-job:      # This job runs in the deploy stage.
     - docker info
     - docker login -u ${REGISTRY_USER//0}00 -p $REGISTRY_PASS
   script:
-    - docker build -t $IMAGE_NAME:$IMAGE_TAG_FRONT
-    - docker build -t $IMAGE_NAME:$IMAGE_TAG_BACK
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG_FRONT ./library_front
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG_BACK ./library_back
     - docker push $IMAGE_NAME:$IMAGE_TAG_FRONT
     - docker push $IMAGE_NAME:$IMAGE_TAG_BACK
