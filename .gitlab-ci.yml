@@ -63,9 +63,11 @@ test-job:
   - docker-compose down
   - docker-compose up -d db
   - docker-compose up -d web
+  - docker-compose up -d front
   - docker exec web_container python3 manage.py makemigrations
   - docker exec web_container python3 manage.py migrate --fake
   - docker exec web_container python3 manage.py test
+  - docker exec front_container npm test
 
 lint-job:   # This job also runs in the test stage.
   stage: lint    # It can run at the same time as unit-test-job (in parallel).
